@@ -99,35 +99,103 @@ LOG_DIR = '/home/cowrie/cowrie/var/log/cowrie'
 ```
 If your installation uses a different path, edit this constant at the top of each script before running.
 
-### Sample output
+---
 
-**credentials.py**
-```
-=== Top Usernames ===
-root          4821
-admin         1205
-ubuntu         342
-pi             289
+## Sample output
 
-=== Top Passwords ===
-123456        1834
-admin          967
-password       441
+**analyze_cowrie.py** — 10-day overview
+```
+==================================================
+ COWRIE 10-DAY REPORT
+==================================================
+Unique sessions : 52,278
+Unique IPs      : 1,585
 
-=== Top Username:Password Pairs ===
-root:123456    892
-admin:admin    654
+Top 10 IPs:
+  45.148.10.183        19,586
+  94.154.35.215        16,346
+  45.148.10.240        16,145
+  2.57.122.177         14,430
+  185.246.128.133      12,196
+
+Top passwords (successful logins):
+  toor                  2,683
+  3245gs5662d34         2,512
+  admin                   171
+  firedancer              165
+
+Top commands:
+   3499  uname -s -v -n -r -m
+   2587  cd ~; chattr -ia .ssh; lockr -ia .ssh
+   2587  cd ~ && rm -rf .ssh && mkdir .ssh && echo "ssh-rsa ...
 ```
 
-**geo_countries.py**
+**classify_cowrie.py** — session classifier (HASSH + regex + ML)
 ```
-=== Top Countries (by sessions) ===
-China              8421  (34.1%)
-United States      3205  (13.0%)
-Russia             2891  (11.7%)
-Netherlands        1654   (6.7%)
-Germany             987   (4.0%)
+[+] Sessions loaded: 1,854
+[+] Classified: 1,854 sessions
+
+family
+Cluster-0     1,349   (unclassified, ML-grouped)
+Go-scanner      253   (SSH-2.0-Go crypto-targeting scanner)
+Cluster-1       151
+mdrfckr          77   (libssh_0.11.1 SSH backdoor)
+Gafgyt           19   (DDoS bot loader)
 ```
+
+**attack_stats.py** — full statistics with ASCII bar charts
+```
+============================================================
+ COWRIE HONEYPOT — FULL STATISTICS REPORT
+============================================================
+  Connections      :  1,854
+  Unique sessions  :  1,857
+  Unique IPs       :    100
+  Login failures   :  1,478
+  Login successes  :    432
+  Commands logged  :    335
+  Payload downloads:     77
+
+=== HASSH Fingerprints (top 5) ===
+  0a07365c   709  Unknown
+  f555226d   494  Unknown
+  16443846   253  Go-scanner / SSH-2.0-Go
+  a7a87fbe    19  Gafgyt loader
+
+=== Session Duration Distribution ===
+  <1s      ███████                                  266
+  1-5s     ████████████████████████████████████████ 1,354
+  5-30s    █████                                    192
+  30s-2m                                             26
+  >2m                                                19
+```
+
+**timeline_builder.py** — forensic session timeline
+```
+SESSION b890da0fdc04
+IP      103.14.33.174
+EVENTS  13
+
+  +    0ms (+    0ms) [CONNECT ]
+  +    1ms (+    1ms) [VERSION ] SSH-2.0-libssh_0.9.6
+  +  216ms (+  215ms) [HASSH   ] hassh=f555226df1963d1d
+  + 1116ms (+  899ms) [SUCCESS ] root:Welcome12!
+  + 1560ms (+    1ms) [CMD     ] cd ~; chattr -ia .ssh; lockr -ia .ssh
+  + 2263ms (+  228ms) [CMD     ] cd ~ && rm -rf .ssh && mkdir .ssh && echo "ssh-rsa...
+  + 2482ms (+  218ms) [DOWNLOAD] sha=a8460f446be5...
+  + 6597ms (+ 4113ms) [CLOSE   ] duration=6.6s
+```
+
+---
+
+## Requirements
+
+```
+pip install pandas matplotlib scikit-learn
+```
+
+`analyze_payloads.py` also uses system tools: `file`, `strings`, `readelf`, `upx`  
+(available on most Linux systems, install via `apt install binutils upx-ucl`)
 
 ---
 
