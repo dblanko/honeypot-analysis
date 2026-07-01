@@ -264,6 +264,19 @@ ae12bb54af31227017feffd9598a6f5e: 2897
 0ab2aeda90221832167e5127332dd702: 1327
 ```
 
+**malware_urls.py**
+```
+Total URLs: 501, Unique: 19
+
+=== TOP SOURCES ===
+http://116.34.68.92:15151/exiles.exe: 300
+http://156.238.237.180:3151/exiles.exe: 158
+http://156.238.237.180:15151/exiles.exe: 12
+http://211.149.211.225:65531/xxi.exe: 10
+http://star.zcnet.net:7766/Server.exe: 6
+http://45.92.1.50/rondo.qre.sh?=: 2
+```
+
 **hunter.py**
 ```
 [+] Families detected: 3
