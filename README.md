@@ -1,6 +1,6 @@
 # honeypot-analysis
 
-Analysis scripts for Cowrie, OpenCanary, Dionaea, and Telnethoney honeypots.  
+Analysis scripts for Cowrie, OpenCanary, Dionaea, and Telnethoney honeypots.
 Part of the [SSHLab Security Research Series](https://sshlab.eu) — six books on honeypot deployment and log analysis using real attack data from a live VPS.
 
 ---
@@ -9,13 +9,13 @@ Part of the [SSHLab Security Research Series](https://sshlab.eu) — six books o
 
 A single VPS running five honeypot sensors simultaneously:
 
-- **Cowrie** — SSH/Telnet honeypot (credential harvesting, session logging, payload capture)
+- **Cowrie** — SSH/Telnet honeypot (credential harvesting, session logging)
 - **OpenCanary** — multi-service honeypot (RDP, MSSQL, HTTP, SMB, MySQL)
 - **Dionaea** — malware honeypot (full binary capture via SMB, MySQL, MSSQL)
 - **Telnethoney** — custom IoT/Telnet honeypot (self-written, emulates BusyBox router)
 - **Suricata** — network IDS (cross-sensor correlation)
 
-All scripts run against real data collected from this deployment.  
+All scripts in this repository run against real data collected from this deployment.
 No synthetic datasets, no lab environments.
 
 ---
@@ -24,24 +24,66 @@ No synthetic datasets, no lab environments.
 
 ```
 cowrie/
-    install_dynamic_fs.sh     — corporate honeyfs setup script
-    log_loader.py             — core log loader (used by all other scripts)
-    analyze_cowrie.py         — 10-day overview report
-    analyze_creds_commands.py — credential and command frequency analysis
-    session_analysis.py       — session-level behavioral analysis
-    attacker_profiling.py     — per-IP profiling + MITRE ATT&CK mapping
-    classify_cowrie.py        — session classifier (HASSH + regex + ML/KMeans)
-    extract_downloads.py      — downloaded payload grouping by SHA256
-    analyze_uploads.py        — SFTP upload analysis
-    analyze_payloads.py       — static binary analysis (entropy, IoC, architecture)
-    generate_time_activity.py — hourly and daily attack timing charts
-    attack_stats.py           — full statistics report with ASCII bar charts
-    analyze_chains.py         — attack chain reconstruction
-    timeline_builder.py       — forensic session timeline with millisecond deltas
+    honeyfs_setup.sh         — corporate honeyfs setup (replaces default Cowrie filesystem)
+    stats_basic.py           — total events, session count, basic overview
+    top_ips.py                — top attacking IPs by session count
+    credentials.py             — top usernames, passwords, and pairs
+    commands.py                — top commands executed by attackers
+    geo_countries.py           — geographic distribution of attacks
+    timeline.py                 — attack timeline and hourly distribution
+    session_analysis.py        — session depth, command sequences, attacker profiles
+    download_analysis.py       — downloaded files, architecture detection, IOC extraction
 
-opencanary/    — coming soon
-dionaea/       — coming soon
-telnethoney/   — coming soon
+dionaea/
+    stats_basic.py              — connections, unique IPs, connection types, protocols
+    stats_by_event_type.py      — per-protocol event counts and top attacker IPs
+    geo_countries.py            — attacker country distribution
+    ip_top_attackers.py         — top IPs ranked by combined event volume
+    ip_persistence.py           — IPs returning across multiple days
+    malware_stats.py            — downloaded payload stats by MD5 and source domain
+    malware_hashes.py           — unique vs duplicate payload hashes
+    malware_urls.py             — download/offer URLs, normalized and ranked
+    payload_timeline.py         — payload downloads by day and hour
+    exploit_stats.py            — connections by protocol, transport, type
+    timeline_hourly.py          — accepted connections by hour
+    timeline_by_protocol_full.py — hourly activity broken down per protocol
+    ip_service_correlation.py   — IPs hitting more than one service
+    asn_analysis.py             — attacking IPs grouped by ASN
+    infrastructure_analysis.py  — ASN/protocol matrix, portscan patterns, first/last seen
+    hunter.py                   — binary sample analysis, IOC/family classification, clustering
+    reports/
+        wannacry_2026.md        — cluster analysis of 269 WannaCry samples captured live
+
+opencanary/
+    stats_basic.py               — total events, logtype distribution, daily counts
+    top_ips.py                    — top attacking IPs by event count
+    top_usernames.py              — top USERNAME values across services
+    geo_countries.py              — country/continent distribution by event volume
+    extract_unique_ips.py         — dedup IP list for downstream GeoIP/ASN lookups
+    geo_providers.py              — attacker distribution by ASN/org
+    events_per_day.py             — daily event counts
+    analyze_subnets.py            — top /24 and /16 attacker subnets
+    attacks_per_service.py        — event counts by emulated service (RDP, VNC, Redis, NTP)
+    rdp_logdata.py                 — RDP-specific username/credential field analysis
+    time_patterns.py               — hourly/weekday attack distribution, per-service peaks
+    ip_persistence.py              — event volume and active-period distribution per IP
+    ip_service_correlation.py      — IPs attacking multiple emulated services
+
+telnethoney/
+    telnet.py                      — the honeypot itself (custom BusyBox router emulation)
+    top_ips.py                      — top source IPs by event count
+    top_countries.py                — top countries by event count
+    top_asn.py                      — top autonomous systems by event count
+    hosting_vs_residential.py       — IP classification (hosting/VPN, residential, Tor)
+    telnet_credentials.py           — top usernames, passwords, credential pairs
+    telnet_commands.py              — top commands by frequency
+    telnet_attacker_profiles.py     — behavioural classification (downloader, loader, etc.)
+    telnet_sessions.py              — full command sequences per IP
+    telnet_commands_by_hour.py      — command activity timeline
+    delivery_methods.py             — payload delivery technique detection (wget, tftp, etc.)
+    telnet_binary_handshake.py      — non-text/binary connection attempts
+    architectures.py                — target CPU architectures referenced in commands
+
 suricata/      — coming soon
 ```
 
@@ -49,155 +91,215 @@ suricata/      — coming soon
 
 ## Cowrie — corporate honeyfs
 
-The default Cowrie filesystem looks like a generic Debian install — experienced attackers recognise it immediately. `install_dynamic_fs.sh` replaces it with a simulated corporate cluster including:
+The default Cowrie filesystem looks like a generic Debian install — experienced attackers recognise it immediately. `honeyfs_setup.sh` replaces it with a simulated corporate cluster environment including Prometheus, Jenkins, Terraform, Kafka, Zookeeper, Ceph, PostgreSQL, MySQL, Nginx, and Docker artefacts.
 
-- Kubernetes, Docker, Ansible, Terraform, Jenkins, GitLab Runner
-- PostgreSQL, MySQL, Redis, RabbitMQ, Kafka, Zookeeper
-- Prometheus, Grafana, Elasticsearch, Logstash, Kibana
-- HashiCorp Vault, Consul, Nomad, Harbor registry, MinIO
-- Fake credentials, SSH keys, database dumps, and CI/CD artefacts
-
-Every run generates randomised usernames, passwords, GitHub tokens, and attacker IPs — so the environment looks different to each session.
-
-**Log path** used by all scripts:
+**Path constants** in all scripts match the standard Cowrie deployment path:
 ```
 LOG_DIR = '/home/cowrie/cowrie/var/log/cowrie'
 ```
-If your installation uses a different path, edit this constant at the top of each script.
+If your installation uses a different path, edit this constant at the top of each script before running.
 
----
+### Sample output
 
-## Script dependencies
-
-Most scripts are standalone. Two exceptions:
-
-**`log_loader.py`** is used as a shared module by `session_analysis.py`, `attacker_profiling.py`, and `classify_cowrie.py`. Keep it in the same directory.
-
-**`analyze_chains.py`** requires three input files generated by other scripts first:
+**credentials.py**
 ```
-malware_commands.json   ← from analyze_creds_commands.py
-malware_files.json      ← from extract_downloads.py
-malware_uploads.json    ← from analyze_uploads.py
-```
+=== Top Usernames ===
+root          4821
+admin         1205
+ubuntu         342
+pi             289
 
----
+=== Top Passwords ===
+123456        1834
+admin          967
+password       441
 
-## Sample output
-
-**analyze_cowrie.py** — 10-day overview
-```
-==================================================
- COWRIE 10-DAY REPORT
-==================================================
-Unique sessions : 52,278
-Unique IPs      : 1,585
-
-Top 10 IPs:
-  45.148.10.183        19,586
-  94.154.35.215        16,346
-  45.148.10.240        16,145
-  2.57.122.177         14,430
-  185.246.128.133      12,196
-
-Top passwords (successful logins):
-  toor                  2,683
-  3245gs5662d34         2,512
-  admin                   171
-  firedancer              165
-
-Top commands:
-   3499  uname -s -v -n -r -m
-   2587  cd ~; chattr -ia .ssh; lockr -ia .ssh
-   2587  cd ~ && rm -rf .ssh && mkdir .ssh && echo "ssh-rsa ...
+=== Top Username:Password Pairs ===
+root:123456    892
+admin:admin    654
 ```
 
-**classify_cowrie.py** — session classifier (HASSH + regex + ML)
+**geo_countries.py**
 ```
-[+] Sessions loaded: 1,854
-[+] Classified: 1,854 sessions
-
-family
-Cluster-0     1,349   (unclassified, ML-grouped)
-Go-scanner      253   (SSH-2.0-Go crypto-targeting scanner)
-Cluster-1       151
-mdrfckr          77   (libssh_0.11.1 SSH backdoor)
-Gafgyt           19   (DDoS bot loader)
-```
-
-**attack_stats.py** — full statistics with ASCII bar charts
-```
-============================================================
- COWRIE HONEYPOT — FULL STATISTICS REPORT
-============================================================
-  Connections      :  1,854
-  Unique sessions  :  1,857
-  Unique IPs       :    100
-  Login failures   :  1,478
-  Login successes  :    432
-  Commands logged  :    335
-  Payload downloads:     77
-
-=== HASSH Fingerprints (top 5) ===
-  0a07365c   709  Unknown
-  f555226d   494  Unknown
-  16443846   253  Go-scanner / SSH-2.0-Go
-  a7a87fbe    19  Gafgyt loader
-
-=== Session Duration Distribution ===
-  <1s      ███████                                  266
-  1-5s     ████████████████████████████████████████ 1,354
-  5-30s    █████                                    192
-  30s-2m                                             26
-  >2m                                                19
-```
-
-**timeline_builder.py** — forensic session timeline
-```
-SESSION b890da0fdc04
-IP      103.14.33.174
-EVENTS  13
-
-  +    0ms (+    0ms) [CONNECT ]
-  +    1ms (+    1ms) [VERSION ] SSH-2.0-libssh_0.9.6
-  +  216ms (+  215ms) [HASSH   ] hassh=f555226df1963d1d
-  + 1116ms (+  899ms) [SUCCESS ] root:Welcome12!
-  + 1560ms (+    1ms) [CMD     ] cd ~; chattr -ia .ssh; lockr -ia .ssh
-  + 2263ms (+  228ms) [CMD     ] cd ~ && rm -rf .ssh && mkdir .ssh && echo "ssh-rsa...
-  + 2482ms (+  218ms) [DOWNLOAD] sha=a8460f446be5...
-  + 6597ms (+ 4113ms) [CLOSE   ] duration=6.6s
+=== Top Countries (by sessions) ===
+China              8421  (34.1%)
+United States      3205  (13.0%)
+Russia             2891  (11.7%)
+Netherlands        1654   (6.7%)
+Germany             987   (4.0%)
 ```
 
 ---
 
-## Requirements
+## Dionaea — malware capture and clustering
 
+Dionaea logs to a SQLite database (`dionaea.sqlite`); the analysis scripts query `connections`, `downloads`, `offers`, `mysql_commands`, `mssql_commands`, `dcerpcrequests`, `dcerpcbinds`, and `logins` directly. Most scripts accept `--last-week`, `--last-month`, or `--from`/`--to` date ranges.
+
+**Path constant** in all scripts:
 ```
-pip install pandas matplotlib scikit-learn
+DB_PATH = "/opt/dionaea-data/sqlite/dionaea.sqlite"
 ```
 
-`analyze_payloads.py` also uses system tools: `file`, `strings`, `readelf`, `upx`  
-(available on most Linux systems, install via `apt install binutils upx-ucl`)
+`infrastructure_analysis.py` and `asn_analysis.py` additionally require a local GeoLite2-ASN database; both autodetect common install paths or accept `--geo-asn`.
+
+`hunter.py` is a separate tool for analysing captured binaries directly (not the SQLite DB): it reads the first 256 KB of each sample, extracts strings, computes entropy and PE timestamps where applicable, matches IOC patterns, classifies samples into families (WannaCry, Cryptominer, LinuxBot, Loader, RAT, Unknown), clusters same-family samples by Jaccard similarity of extracted strings, and writes both a JSON graph and a Markdown report. It is built for large collections (tens of thousands of files) since it only reads partial file content.
+
+### Sample output
+
+**stats_basic.py**
+```
+Total connections: 931752
+Unique attacker IPs: 21425
+
+Connection types:
+ accept: 904563
+ listen: 27185
+
+Protocols:
+ smbd: 738615
+ mssqld: 74970
+ httpd: 73974
+ mysqld: 8491
+```
+
+**malware_hashes.py**
+```
+Total entries: 19999
+Unique hashes: 2181
+
+=== TOP HASHES ===
+ae12bb54af31227017feffd9598a6f5e: 2897
+996c2b2ca30180129c69352a3a3515e4: 1747
+0ab2aeda90221832167e5127332dd702: 1327
+```
+
+**hunter.py**
+```
+[+] Families detected: 3
+=== Family: WannaCry ===
+Samples: 269
+Clusters: 1
+ - Cluster #1: 269 samples
+   SHA256: 087169471437, af6d78b3226a, 212853304541 ...
+=== Family: LinuxBot ===
+Samples: 14
+Clusters: 5
+```
+
+See [`dionaea/reports/wannacry_2026.md`](dionaea/reports/wannacry_2026.md) for the full cluster writeup: 269 distinct WannaCry samples captured live, all clustering into a single connected component.
+
+---
+
+## OpenCanary — multi-service emulation
+
+OpenCanary writes a single JSON-lines log (`opencanary.log`); scripts work against a time-sliced extract (`period.json`) produced with a simple `awk` range filter. Each script reads the file once and aggregates by `logtype`, `src_host`, or fields inside `logdata`.
+
+**Path constant** in all scripts:
+```
+LOGFILE = "period.json"
+```
+
+`geo_countries.py` and `geo_providers.py` require local GeoLite2-Country and GeoLite2-ASN databases.
+
+### Sample output
+
+**top_usernames.py**
+```
+Top 10 USERNAME:
+hello;1293911
+test;428472
+65;126004
+Administrator;21688
+```
+
+**attacks_per_service.py**
+```
+Service;Count
+RDP;3929226
+VNC;76907
+Redis;42418
+NTP;549
+```
+
+**rdp_logdata.py**
+```
+Total RDP events: 3929226
+USERNAME = null: 1979068 (50.4%)
+USERNAME = empty: 39334 (1.0%)
+USERNAME = value: 1910824 (48.6%)
+PASSWORD present: 0
+ >>> No passwords in RDP logs (NLA/CredSSP by design)
+```
+
+---
+
+## Telnethoney — custom IoT/Telnet honeypot
+
+Telnethoney (`telnet.py`) is a self-written honeypot, not a third-party project. It emulates a BusyBox-based IoT router: fake `ps`, `top`, `df`, `ifconfig`, `uname`, `/proc/cpuinfo`, working `echo >`/`echo >>` file redirection, and a minimal HTTP server that serves fake binaries to scripted downloaders. Every login attempt, command, and HTTP request is logged to a single JSON-lines file, enriched at write time with GeoIP/ASN lookups and an IP classification (hosting/VPN, residential, Tor, unknown).
+
+**Path constant** in all scripts:
+```
+LOGFILE = 'telnethoney.json'
+```
+
+### Sample output
+
+**telnet_credentials.py**
+```
+=== Top Usernames ===
+root 32817
+admin 5456
+user 755
+
+=== Top Passwords ===
+123456 990
+admin 632
+111111 246
+```
+
+**telnet_attacker_profiles.py**
+```
+=== Attacker Profiles ===
+Unknown: 84311
+Interactive Shell: 72247
+Credential Brute Force: 57341
+Botnet Loader: 17817
+HTTP Scanner: 5491
+```
+
+**delivery_methods.py**
+```
+=== Delivery Methods ===
+wget: 236
+curl: 124
+busybox wget: 93
+nc: 72
+tftp: 48
+```
 
 ---
 
 ## Books
 
-These scripts are the maintained versions of the analysis tools documented in the Security Research Series. Some differences from the print appendices reflect path corrections and post-publication enhancements.
+These scripts are the maintained, tested versions of the analysis tools documented in the Security Research Series.
+Minor differences from the print appendices reflect path corrections and enhancements made after publication.
 
 | Book | Honeypot | Scripts |
 |------|----------|---------|
 | [Book 1 — Cowrie SSH Honeypot](https://leanpub.com/cowrie) | Cowrie | `cowrie/` |
-| Book 2 — OpenCanary | OpenCanary | `opencanary/` (coming soon) |
-| Book 3 — Dionaea Malware Honeypot | Dionaea | `dionaea/` (coming soon) |
-| Book 4 — Telnethoney IoT | Telnethoney | `telnethoney/` (coming soon) |
-| Book 5 — Suricata | Suricata | `suricata/` (coming soon) |
-| Book 6 — Correlation | All sensors | — |
+| [Book 2 — OpenCanary](https://leanpub.com/opencanary-honeypot) | OpenCanary | `opencanary/` |
+| [Book 3 — Dionaea Malware Honeypot](https://leanpub.com/dionaeahoneypot) | Dionaea | `dionaea/` |
+| [Book 4 — Telnethoney IoT](https://leanpub.com/telnethoney) | Telnethoney | `telnethoney/` |
+| [Book 5 — Suricata](https://leanpub.com/suricata) | Suricata | — |
+| [Book 6 — Correlation](https://leanpub.com/correlation) | All sensors | — |
 
-Full series and blog: [sshlab.eu](https://sshlab.eu)
+Full series: [Security Research Series](https://leanpub.com/b/securityresearchseries)
 
 ---
 
 ## License
 
-MIT — see [LICENSE](LICENSE)  
+MIT — see [LICENSE](LICENSE)
 Scripts may be used freely. If you use them in research or writing, a mention of SSHLab Research is appreciated.
+
+
