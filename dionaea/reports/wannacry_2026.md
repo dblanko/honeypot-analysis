@@ -8,7 +8,7 @@ Cluster analysis of WannaCry samples captured by the Dionaea honeypot sensor.
 
 The Dionaea sensor captured 285 suspicious binaries during the analysis window, of which 269 classified as WannaCry propagation-module samples, 14 as a generic Linux bot family, and 2 as unclassified. This document covers the methodology used to identify and cluster the WannaCry samples and what the resulting cluster structure says about how the worm is still propagating nine years after its original 2017 outbreak.
 
-Tooling: `hunter.py` (sample analysis — string extraction, entropy, PE timestamp, IOC matching, family classification, and Jaccard-similarity clustering, all in `dionaea/`).
+Tooling: [hunter_1.py](https://github.com/dblanko/honeypot-analysis/blob/main/dionaea/hunter_1.py) (sample analysis — string extraction, entropy, PE timestamp, IOC matching, family classification, and Jaccard-similarity clustering, all in dionaea/).
 
 ## 2. Data source
 
