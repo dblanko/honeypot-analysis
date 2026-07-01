@@ -30,7 +30,7 @@ Each capture has a distinct SHA-256, meaning these are 269 separate binary insta
 
 ## 5. Clustering result
 
-Running the 269 WannaCry-classified samples through `hunter.py`'s Jaccard-similarity clustering (threshold 0.4, based on extracted strings) produced a single cluster containing all 269 samples, connected as one component in the resulting similarity graph.
+Running the 269 WannaCry-classified samples through [hunter_2.py](https://github.com/dblanko/honeypot-analysis/blob/main/dionaea/hunter_2.py)'s Jaccard-similarity clustering (threshold 0.4, based on extracted strings) produced a single cluster containing all 269 samples, connected as one component in the resulting similarity graph.
 
 ```
 === Family: WannaCry ===
