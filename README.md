@@ -335,6 +335,20 @@ PASSWORD present: 0
  >>> No passwords in RDP logs (NLA/CredSSP by design)
 ```
 
+**ip_service_correlation.py**
+```
+IP × SERVICE CORRELATION
+  1 service:   4387 IPs (96.1%)
+  2 services:   177 IPs
+  3+ services:    2 IPs (0.0%)
+
+── Top 20 universal IPs (most services) ──
+  65.49.1.142              3 svcs  NTP, RDP, Redis                16
+  65.49.1.122              3 svcs  NTP, RDP, Redis                16
+  65.49.1.182              2 svcs  RDP, Redis                      7
+  18.116.101.220           2 svcs  RDP, Redis                     90
+```
+
 ---
 
 ## Telnethoney — custom IoT/Telnet honeypot
@@ -369,6 +383,8 @@ Interactive Shell: 72247
 Credential Brute Force: 57341
 Botnet Loader: 17817
 HTTP Scanner: 5491
+Downloader: 295
+Malware Execution: 12
 ```
 
 **delivery_methods.py**
@@ -379,8 +395,20 @@ curl: 124
 busybox wget: 93
 nc: 72
 tftp: 48
+base64: 33
+bash tcp: 16
+busybox curl: 11
+toybox nc: 11
+socat: 11
 ```
 
+**architectures.py**
+```
+=== Architectures Targeted ===
+mips: 73
+mpsl: 72
+x86: 64
+```
 ---
 
 ## Books
