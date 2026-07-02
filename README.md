@@ -234,7 +234,14 @@ DB_PATH = "/opt/dionaea-data/sqlite/dionaea.sqlite"
 [asn_analysis.py](https://github.com/dblanko/honeypot-analysis/blob/main/dionaea/asn_analysis.py) 
 additionally require a local GeoLite2-ASN database; both autodetect common install paths or accept --geo-asn.
 
-`hunter.py` is a separate tool for analysing captured binaries directly (not the SQLite DB): it reads the first 256 KB of each sample, extracts strings, computes entropy and PE timestamps where applicable, matches IOC patterns, classifies samples into families (WannaCry, Cryptominer, LinuxBot, Loader, RAT, Unknown), clusters same-family samples by Jaccard similarity of extracted strings, and writes both a JSON graph and a Markdown report. It is built for large collections (tens of thousands of files) since it only reads partial file content.
+[hunter_v1.py](https://github.com/dblanko/honeypot-analysis/blob/main/dionaea/hunter_1.py) performs fast static analysis of captured binaries (first 256 KB only): 
+extracts strings, computes entropy and PE timestamps, matches IOC patterns, classifies samples into families 
+(WannaCry, Cryptominer, LinuxBot, Loader, RAT, Unknown), produces Top‑N lists, and writes both JSON and Markdown reports. 
+Designed for large collections (tens of thousands of files).
+
+[hunter_v2.py](https://github.com/dblanko/honeypot-analysis/blob/main/dionaea/hunter_v2.py) groups analysed samples by family (WannaCry, Loader, LinuxBot, Unknown) 
+and performs intra‑family clustering using Jaccard similarity of extracted strings. 
+Outputs a JSON graph (nodes + edges) and a Markdown cluster report.
 
 ### Sample output
 
@@ -278,7 +285,7 @@ http://star.zcnet.net:7766/Server.exe: 6
 http://45.92.1.50/rondo.qre.sh?=: 2
 ```
 
-**hunter.py**
+**hunter_v2.py**
 ```
 [+] Families detected: 3
 === Family: WannaCry ===
