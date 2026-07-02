@@ -1,24 +1,21 @@
-import json
+import maxminddb
+from collections import Counter
 
-LOGFILE = "period.json"
-ips = set()
+reader    = maxminddb.open_database("/var/lib/GeoIP/GeoLite2-ASN.mmdb")
+providers = Counter()
 
-with open(LOGFILE) as f:
-    for line in f:
-        line = line.strip()
-        if not line:
-            continue
+with open("unique_ips.txt") as f:
+    for ip in f:
+        ip = ip.strip()
+        if not ip: continue
         try:
-            event = json.loads(line)
-        except json.JSONDecodeError:
-            continue
+            rec = reader.get(ip)
+            org = rec.get("autonomous_system_organization", "UNK")
+        except:
+            org = "UNK"
+        providers[org] += 1
+reader.close()
 
-        src = event.get("src_host")
-        if src:
-            ips.add(src)
-
-with open("unique_ips.txt", "w") as out:
-    for ip in sorted(ips):
-        out.write(ip + "\n")
-
-print("Unique IP:", len(ips))
+print("Provider;Count")
+for org, cnt in providers.most_common():
+    print(f"{org};{cnt}")
