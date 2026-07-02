@@ -362,7 +362,7 @@ IP × SERVICE CORRELATION
 
 ## Telnethoney — custom IoT/Telnet honeypot
 
-Telnethoney (`telnet.py`) is a self-written honeypot, not a third-party project. It emulates a BusyBox-based IoT router: fake `ps`, `top`, `df`, `ifconfig`, `uname`, `/proc/cpuinfo`, working `echo >`/`echo >>` file redirection, and a minimal HTTP server that serves fake binaries to scripted downloaders. Every login attempt, command, and HTTP request is logged to a single JSON-lines file, enriched at write time with GeoIP/ASN lookups and an IP classification (hosting/VPN, residential, Tor, unknown).
+Telnethoney [telnet.py](https://github.com/dblanko/honeypot-analysis/blob/main/telnethoney/telnet.py) is a self-written honeypot, not a third-party project. It emulates a BusyBox-based IoT router: fake `ps`, `top`, `df`, `ifconfig`, `uname`, `/proc/cpuinfo`, working `echo >`/`echo >>` file redirection, and a minimal HTTP server that serves fake binaries to scripted downloaders. Every login attempt, command, and HTTP request is logged to a single JSON-lines file, enriched at write time with GeoIP/ASN lookups and an IP classification (hosting/VPN, residential, Tor, unknown).
 
 **Path constant** in all scripts:
 ```
