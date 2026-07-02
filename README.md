@@ -311,7 +311,7 @@ OpenCanary writes a single JSON-lines log (`opencanary.log`); scripts work again
 LOGFILE = "period.json"
 ```
 
-`geo_countries.py` and `geo_providers.py` require local GeoLite2-Country and GeoLite2-ASN databases.
+[geo_countries.py](https://github.com/dblanko/honeypot-analysis/blob/main/opencanary/geo_countries.py) and [geo_providers.py](https://github.com/dblanko/honeypot-analysis/blob/main/opencanary/geo_providers.py) require local GeoLite2-Country and GeoLite2-ASN databases.
 
 ### Sample output
 
