@@ -215,9 +215,10 @@ EVENTS  13
 pip install pandas matplotlib scikit-learn
 ```
 
-`analyze_payloads.py` also uses system tools: `file`, `strings`, `readelf`, `upx`  
-(available on most Linux systems, install via `apt install binutils upx-ucl`)
-
+[analyze_payloads.py](https://github.com/dblanko/honeypot-analysis/blob/main/cowrie/analyze_payloads.py) also uses system tools: `file`, `strings`, `readelf`, `upx` (available on most Linux systems, install via:)
+```
+apt install binutils upx-ucl
+```
 ---
 
 ## Dionaea — malware capture and clustering
