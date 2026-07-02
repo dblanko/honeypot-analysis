@@ -91,7 +91,7 @@ suricata/      — coming soon
 
 ## Cowrie — corporate honeyfs
 
-The default Cowrie filesystem looks like a generic Debian install — experienced attackers recognise it immediately. `install_dynamic_fs.sh` replaces it with a simulated corporate cluster including:
+The default Cowrie filesystem looks like a generic Debian install — experienced attackers recognise it immediately. [install_dynamic_fs.sh](https://github.com/dblanko/honeypot-analysis/blob/main/cowrie/install_dynamic_fs.sh) replaces it with a simulated corporate cluster including:
 
 - Kubernetes, Docker, Ansible, Terraform, Jenkins, GitLab Runner
 - PostgreSQL, MySQL, Redis, RabbitMQ, Kafka, Zookeeper
