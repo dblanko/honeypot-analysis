@@ -230,7 +230,9 @@ Dionaea logs to a SQLite database (`dionaea.sqlite`); the analysis scripts query
 DB_PATH = "/opt/dionaea-data/sqlite/dionaea.sqlite"
 ```
 
-`infrastructure_analysis.py` and `asn_analysis.py` additionally require a local GeoLite2-ASN database; both autodetect common install paths or accept `--geo-asn`.
+[infrastructure_analysis.py](https://github.com/dblanko/honeypot-analysis/blob/main/dionaea/infrastructure_analysis.py) and 
+[asn_analysis.py](https://github.com/dblanko/honeypot-analysis/blob/main/dionaea/asn_analysis.py) 
+additionally require a local GeoLite2-ASN database; both autodetect common install paths or accept --geo-asn.
 
 `hunter.py` is a separate tool for analysing captured binaries directly (not the SQLite DB): it reads the first 256 KB of each sample, extracts strings, computes entropy and PE timestamps where applicable, matches IOC patterns, classifies samples into families (WannaCry, Cryptominer, LinuxBot, Loader, RAT, Unknown), clusters same-family samples by Jaccard similarity of extracted strings, and writes both a JSON graph and a Markdown report. It is built for large collections (tens of thousands of files) since it only reads partial file content.
 
