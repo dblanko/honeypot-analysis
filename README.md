@@ -24,38 +24,38 @@ No synthetic datasets, no lab environments.
 
 ```
 cowrie/
-    honeyfs_setup.sh         — corporate honeyfs setup (replaces default Cowrie filesystem)
-    stats_basic.py           — total events, session count, basic overview
-    top_ips.py                — top attacking IPs by session count
+    honeyfs_setup.sh           — corporate honeyfs setup (replaces default Cowrie filesystem)
+    stats_basic.py             — total events, session count, basic overview
+    top_ips.py                 — top attacking IPs by session count
     credentials.py             — top usernames, passwords, and pairs
     commands.py                — top commands executed by attackers
     geo_countries.py           — geographic distribution of attacks
-    timeline.py                 — attack timeline and hourly distribution
+    timeline.py                — attack timeline and hourly distribution
     session_analysis.py        — session depth, command sequences, attacker profiles
     download_analysis.py       — downloaded files, architecture detection, IOC extraction
 
 dionaea/
-    stats_basic.py              — connections, unique IPs, connection types, protocols
-    stats_by_event_type.py      — per-protocol event counts and top attacker IPs
-    geo_countries.py            — attacker country distribution
-    ip_top_attackers.py         — top IPs ranked by combined event volume
-    ip_persistence.py           — IPs returning across multiple days
-    malware_stats.py            — downloaded payload stats by MD5 and source domain
-    malware_hashes.py           — unique vs duplicate payload hashes
-    malware_urls.py             — download/offer URLs, normalized and ranked
-    payload_timeline.py         — payload downloads by day and hour
-    exploit_stats.py            — connections by protocol, transport, type
-    timeline_hourly.py          — accepted connections by hour
+    stats_basic.py               — connections, unique IPs, connection types, protocols
+    stats_by_event_type.py       — per-protocol event counts and top attacker IPs
+    geo_countries.py             — attacker country distribution
+    ip_top_attackers.py          — top IPs ranked by combined event volume
+    ip_persistence.py            — IPs returning across multiple days
+    malware_stats.py             — downloaded payload stats by MD5 and source domain
+    malware_hashes.py            — unique vs duplicate payload hashes
+    malware_urls.py              — download/offer URLs, normalized and ranked
+    payload_timeline.py          — payload downloads by day and hour
+    exploit_stats.py             — connections by protocol, transport, type
+    timeline_hourly.py           — accepted connections by hour
     timeline_by_protocol_full.py — hourly activity broken down per protocol
-    ip_service_correlation.py   — IPs hitting more than one service
-    asn_analysis.py             — attacking IPs grouped by ASN
-    infrastructure_analysis.py  — ASN/protocol matrix, portscan patterns, first/last seen
-    hunter.py                   — binary sample analysis, IOC/family classification, clustering
+    ip_service_correlation.py    — IPs hitting more than one service
+    asn_analysis.py              — attacking IPs grouped by ASN
+    infrastructure_analysis.py   — ASN/protocol matrix, portscan patterns, first/last seen
+    hunter.py                    — binary sample analysis, IOC/family classification, clustering
     reports/
-        wannacry_2026.md        — cluster analysis of 269 WannaCry samples captured live
+        wannacry_2026.md         — cluster analysis of 269 WannaCry samples captured live
 
 opencanary/
-    stats_basic.py               — total events, logtype distribution, daily counts
+    stats_basic.py                — total events, logtype distribution, daily counts
     top_ips.py                    — top attacking IPs by event count
     top_usernames.py              — top USERNAME values across services
     geo_countries.py              — country/continent distribution by event volume
@@ -64,25 +64,25 @@ opencanary/
     events_per_day.py             — daily event counts
     analyze_subnets.py            — top /24 and /16 attacker subnets
     attacks_per_service.py        — event counts by emulated service (RDP, VNC, Redis, NTP)
-    rdp_logdata.py                 — RDP-specific username/credential field analysis
-    time_patterns.py               — hourly/weekday attack distribution, per-service peaks
-    ip_persistence.py              — event volume and active-period distribution per IP
-    ip_service_correlation.py      — IPs attacking multiple emulated services
+    rdp_logdata.py                — RDP-specific username/credential field analysis
+    time_patterns.py              — hourly/weekday attack distribution, per-service peaks
+    ip_persistence.py             — event volume and active-period distribution per IP
+    ip_service_correlation.py     — IPs attacking multiple emulated services
 
 telnethoney/
     telnet.py                      — the honeypot itself (custom BusyBox router emulation)
-    top_ips.py                      — top source IPs by event count
-    top_countries.py                — top countries by event count
-    top_asn.py                      — top autonomous systems by event count
-    hosting_vs_residential.py       — IP classification (hosting/VPN, residential, Tor)
-    telnet_credentials.py           — top usernames, passwords, credential pairs
-    telnet_commands.py              — top commands by frequency
-    telnet_attacker_profiles.py     — behavioural classification (downloader, loader, etc.)
-    telnet_sessions.py              — full command sequences per IP
-    telnet_commands_by_hour.py      — command activity timeline
-    delivery_methods.py             — payload delivery technique detection (wget, tftp, etc.)
-    telnet_binary_handshake.py      — non-text/binary connection attempts
-    architectures.py                — target CPU architectures referenced in commands
+    top_ips.py                     — top source IPs by event count
+    top_countries.py               — top countries by event count
+    top_asn.py                     — top autonomous systems by event count
+    hosting_vs_residential.py      — IP classification (hosting/VPN, residential, Tor)
+    telnet_credentials.py          — top usernames, passwords, credential pairs
+    telnet_commands.py             — top commands by frequency
+    telnet_attacker_profiles.py    — behavioural classification (downloader, loader, etc.)
+    telnet_sessions.py             — full command sequences per IP
+    telnet_commands_by_hour.py     — command activity timeline
+    delivery_methods.py            — payload delivery technique detection (wget, tftp, etc.)
+    telnet_binary_handshake.py     — non-text/binary connection attempts
+    architectures.py               — target CPU architectures referenced in commands
 
 suricata/      — coming soon
 ```
