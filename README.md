@@ -50,7 +50,8 @@ dionaea/
     ip_service_correlation.py    — IPs hitting more than one service
     asn_analysis.py              — attacking IPs grouped by ASN
     infrastructure_analysis.py   — ASN/protocol matrix, portscan patterns, first/last seen
-    hunter.py                    — binary sample analysis, IOC/family classification, clustering
+    hunter_1.py                  — binary sample analysis, IOC/family classification
+    hunter_2.py                  - family grouping, intra-family Jaccard clustering, similarity graph generation
     reports/
         wannacry_2026.md         — cluster analysis of 269 WannaCry samples captured live
 
