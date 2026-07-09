@@ -20,7 +20,7 @@ Anonymised extract from a live Telnethoney IoT/Telnet honeypot deployment.
 
 ## Usage
 
-Run any script from the `telnethoney/` directory against this file:
+Run any script from the [`telnethoney/`](https://github.com/dblanko/honeypot-analysis/tree/main/telnethoney) directory against this file:
 
 ```bash
 python3 top_ips.py
