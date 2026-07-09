@@ -8,7 +8,8 @@ classifies transition timing (real-time vs delayed), and summarises attacker beh
 
 ## Sample report
 
-[daily_2026-04-11_anon.html](daily_2026-04-11_anon.html) — 18 correlated IPs, April 11 2026.
+- [daily_2026-04-11_anon.md](daily_2026-04-11_anon.md) — rendered inline on GitHub
+- [daily_2026-04-11_anon.html](daily_2026-04-11_anon.html) — full dark-theme dashboard (open locally)
 
 ### What the report shows
 
@@ -30,11 +31,6 @@ not three separate attackers sharing the same address.
 
 All source IPs replaced with 203.0.113.x (RFC 5737 documentation range).
 Report date and structure preserved as-is.
-
-## Sample report
-
-- [daily_2026-04-11_anon.md](daily_2026-04-11_anon.md) — rendered inline on GitHub
-- [daily_2026-04-11_anon.html](daily_2026-04-11_anon.html) — full dark-theme dashboard (open locally)
 
 ## Related
 
