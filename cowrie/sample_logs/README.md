@@ -21,7 +21,7 @@ Anonymised extract from a live Cowrie SSH honeypot deployment.
 
 ## Usage
 
-Run any script from the `cowrie/` directory against this file:
+Run any script from the [`cowrie/`](https://github.com/dblanko/honeypot-analysis/tree/main/cowrie) directory against this file:
 
 ```bash
 python3 analyze_cowrie.py cowrie/sample_logs/cowrie_sample.json
