@@ -31,6 +31,11 @@ not three separate attackers sharing the same address.
 All source IPs replaced with 203.0.113.x (RFC 5737 documentation range).
 Report date and structure preserved as-is.
 
+## Sample report
+
+- [daily_2026-04-11_anon.md](daily_2026-04-11_anon.md) — rendered inline on GitHub
+- [daily_2026-04-11_anon.html](daily_2026-04-11_anon.html) — full dark-theme dashboard (open locally)
+
 ## Related
 
 - Full correlation methodology: [Book 6 — Correlation](https://leanpub.com/correlation)
