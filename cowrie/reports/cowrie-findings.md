@@ -41,6 +41,3 @@ Peak attack hour: 05:00 UTC. This is consistent across the full dataset. The pat
 52,278 sessions. 1,585 unique IPs. The session duration distribution is the most telling detail: 73% of sessions lasted between 1 and 5 seconds. These are not human operators. They are automated tools running credential lists, fingerprinting the system, and moving on — processing thousands of targets per hour from the same infrastructure.
 
 The RedTail operator was the exception: an SFTP session uploading `redtail.arm8`, `redtail.i686`, `redtail.x86_64`, and `setup.sh` — 97 commands across the session. One human operator, identifiable by behaviour, among tens of thousands of automated connections.
-
-Analysis scripts and the corporate honeyfs setup used in this deployment:
-[github.com/dblanko/honeypot-analysis](https://github.com/dblanko/honeypot-analysis)
