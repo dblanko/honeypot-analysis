@@ -446,18 +446,6 @@ Suricata sees the complete network picture: flows, protocol fingerprints, and si
 
 One day of eve.json output: **220,513 events** — 67,631 flows, 50,287 alerts, 39,577 RDP events, 39,468 SMB events.
 
-| Script | Purpose |
-|--------|---------|
-| `load_suricata.py` | Core log loader — shared module used by all other scripts |
-| `suricata_alerts.py` | Alert analysis: top signatures, categories, per-IP summary |
-| `suricata_flow.py` | Flow analysis: protocols, ports, traffic volume |
-| `suricata_smb.py` | SMB analysis: EternalBlue probes, SMB1 negotiation |
-| `suricata_http.py` | HTTP scanner behaviour: user-agents, URIs, file extensions |
-| `suricata_dns.py` | DNS query analysis: DGA detection, top domains |
-| `suricata_tls.py` | TLS/JA3 fingerprinting |
-| `suricata_fileinfo.py` | File transfer analysis |
-| `suricata_timeline.py` | Forensic event timeline |
-
 **Log path** used by all scripts:
 EVE_LOG = '/var/log/suricata/eve.json'
 
