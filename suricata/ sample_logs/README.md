@@ -40,4 +40,4 @@ python3 suricata_smb.py suricata/sample_logs/eve_sample.json
 python3 suricata_timeline.py suricata/sample_logs/eve_sample.json
 ```
 
-`load_suricata.py` is a shared module — keep it in the same directory as the other scripts.
+[`load_suricata.py`](https://github.com/dblanko/honeypot-analysis/blob/main/suricata/load_suricata.py) is a shared module — keep it in the same directory as the other scripts.
