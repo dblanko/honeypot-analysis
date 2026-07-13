@@ -543,6 +543,20 @@ providing network-level confirmation of what the malware honeypot captured at th
 Full methodology: [Book 5 — Suricata: Network Guardian](https://leanpub.com/suricata) ·
 [Book 6 — Correlation](https://leanpub.com/correlation)
 
+---
+
+## Findings
+
+| Report | Sensor | Summary |
+|--------|--------|---------|
+| [WannaCry cluster 2026](dionaea/reports/wannacry_2026.md) | Dionaea | 269 samples, one cluster, May 2017 binary still active |
+| [Cowrie findings](cowrie/reports/cowrie-findings.md) | Cowrie | 52,278 sessions, SSH key injection dominant pattern |
+| [OpenCanary findings](opencanary/reports/opencanary-findings.md) | OpenCanary | 544,908 events, Redis wordlist reconstruction, RDP cluster |
+| [Telnethoney findings](telnethoney/reports/telnethoney-findings.md) | Telnethoney | 260,544 events, hex-encoded auth_ok dominant command |
+| [Suricata findings](suricata/reports/suricata-findings.md) | Suricata | 220,513 events/day, EternalBlue + WannaCry cross-sensor |
+| [Correlation sample](correlation/reports/daily_2026-04-11_anon.md) | All sensors | Daily cross-sensor report, 18 correlated IPs |
+
+---
 
 ## Books
 
