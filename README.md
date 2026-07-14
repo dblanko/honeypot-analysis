@@ -33,6 +33,11 @@ cowrie/
     timeline.py                  — attack timeline and hourly distribution
     session_analysis.py          — session depth, command sequences, attacker profiles
     download_analysis.py         — downloaded files, architecture detection, IOC extraction
+    sample_logs/
+        cowrie_sample.json       — 72 anonymised events across 4 sessions
+        README.md
+    reports/
+        cowrie-findings.md       — 52,278 sessions: credentials, HASSH, payload analysis
 
 dionaea/
     stats_basic.py               — connections, unique IPs, connection types, protocols
@@ -69,6 +74,8 @@ opencanary/
     time_patterns.py             — hourly/weekday attack distribution, per-service peaks
     ip_persistence.py            — event volume and active-period distribution per IP
     ip_service_correlation.py    — IPs attacking multiple emulated services
+    reports/
+        opencanary-findings.md   — 544,908 events: RDP cluster, Redis wordlist, VNC in 2.5s                   
 
 telnethoney/
     telnet.py                     — the honeypot itself (custom BusyBox router emulation)
@@ -84,6 +91,11 @@ telnethoney/
     delivery_methods.py           — payload delivery technique detection (wget, tftp, etc.)
     telnet_binary_handshake.py    — non-text/binary connection attempts
     architectures.py              — target CPU architectures referenced in commands
+    sample_logs/
+        telnethoney_sample.json   — 60 anonymised events across 4 attacker types
+        README.md
+    reports/
+        telnethoney-findings.md   — 260,544 events: IoT botnets, hex auth_ok, router scanners
 
 suricata/
     load_suricata.py              — base loader for eve.json, fast.log, stats.log
@@ -97,10 +109,10 @@ suricata/
     suricata_timeline.py          — event timeline (flow_id correlation, attack chains)
     sample_logs/
         eve_sample.json           — 36 anonymised eve.json events
-        suricata_analysis.json    — per-IP alert summary (top 20 IPs)
+        suricata_analysis_sample.json    — per-IP alert summary (top 20 IPs)
         README.md
     reports/
-        suricata-findings.md
+        suricata-findings.md      — 67,631 flows and 50,287 alerts in a single day
 
 correlation/
     reports/
