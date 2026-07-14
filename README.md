@@ -96,11 +96,17 @@ suricata/
     suricata_smb.py               — SMB analysis (commands, anomalies, EternalBlue indicators)
     suricata_timeline.py          — event timeline (flow_id correlation, attack chains)
     sample_logs/
-        eve_sample.json
-        suricata_analysis.json
+        eve_sample.json           — 36 anonymised eve.json events
+        suricata_analysis.json    — per-IP alert summary (top 20 IPs)
         README.md
     reports/
         suricata-findings.md
+
+correlation/
+    reports/
+        daily_2026-04-11_anon.md    — anonymised daily cross-sensor report (18 correlated IPs)
+        daily_2026-04-11_anon.html  — same report, dark-theme dashboard (open locally)
+        README.md
 ```
 
 ---
