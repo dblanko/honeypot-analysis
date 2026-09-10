@@ -585,6 +585,6 @@ Full series: [Security Research Series](https://leanpub.com/b/securityresearchse
 ## License
 
 MIT — see [LICENSE](LICENSE)
-Scripts may be used freely. If you use them in research or writing, a mention of SSHLab Research is appreciated.
 
+Descriptive text in this README was drafted with the help of an AI writing assistant, since English is not the author's first language and direct machine translation isn't always precise. All scripts, data, findings, and technical content are the author's own work.
 
