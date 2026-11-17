@@ -18,7 +18,7 @@ One VPS runs five sensors simultaneously:
 | Suricata | Network IDS: cross-sensor correlation | [`suricata/`](suricata/) |
 
 Each folder has its own README with the script list, log paths, dependencies and sample output.
-Cross-sensor material is in [`correlation/`](correlation/).
+Cross-sensor material is in [`correlation/reports/`](correlation/reports/).
 
 ## Before you start
 
@@ -69,7 +69,7 @@ These scripts are the maintained, tested versions of the tools documented in the
 | [Book 3 — Dionaea Malware Honeypot](https://leanpub.com/dionaeahoneypot) | Dionaea | [`dionaea/`](dionaea/) |
 | [Book 4 — Telnethoney IoT](https://leanpub.com/telnethoney) | Telnethoney | [`telnethoney/`](telnethoney/) |
 | [Book 5 — Suricata](https://leanpub.com/suricata) | Suricata | [`suricata/`](suricata/) |
-| [Book 6 — Correlation](https://leanpub.com/correlation) | All sensors | [`correlation/`](correlation/) |
+| [Book 6 — Correlation](https://leanpub.com/correlation) | All sensors | [`correlation/reports/`](correlation/reports/) |
 
 Full series: [Security Research Series](https://leanpub.com/b/securityresearchseries)
 
