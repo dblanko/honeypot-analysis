@@ -20,13 +20,32 @@ One VPS runs five sensors simultaneously:
 Each folder has its own README with the script list, log paths, dependencies and sample output.
 Cross-sensor material is in [`correlation/`](correlation/).
 
+## Before you start
+
+This repository contains **analysis scripts only** (plus the Telnethoney honeypot itself). The scripts expect logs from sensors that are already deployed and have been collecting data for a while. Installing and configuring the sensors is not covered here; see the books and the upstream documentation.
+
+| Sensor | Install separately | What the scripts read |
+|--------|--------------------|-----------------------|
+| Cowrie | [cowrie/cowrie](https://github.com/cowrie/cowrie) | JSON logs in `LOG_DIR` |
+| OpenCanary | [thinkst/opencanary](https://github.com/thinkst/opencanary) | `opencanary.log`, sliced into `period.json` |
+| Dionaea | [DinoTools/dionaea](https://github.com/DinoTools/dionaea) | SQLite database (`DB_PATH`) |
+| Telnethoney | nothing, [`telnet.py`](telnethoney/telnet.py) is in this repo | `telnethoney.json` |
+| Suricata | [suricata.io](https://suricata.io) | `eve.json` |
+
+Some scripts need extras beyond Python packages:
+
+- GeoIP/ASN scripts in `dionaea/` and `opencanary/` need local [MaxMind GeoLite2](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data) databases.
+- `cowrie/analyze_payloads.py` uses system tools (`file`, `strings`, `readelf`, `upx`).
+
 ## Quick start
 
-```
-pip install -r requirements.txt
-```
-
-Every script reads its log from a path constant at the top of the file (for example `LOG_DIR`, `DB_PATH`, `LOGFILE`, `EVE_LOG`). Edit it if your installation differs; defaults are listed in each folder's README.
+1. Deploy the sensors you want to analyse and let them collect data.
+2. Install the Python dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
+3. Open the script you want to run and set its log path constant (`LOG_DIR`, `DB_PATH`, `LOGFILE` or `EVE_LOG`) to your own path. Defaults are listed in each folder's README.
+4. Run it: `python3 <sensor>/<script>.py`
 
 ## Findings
 
